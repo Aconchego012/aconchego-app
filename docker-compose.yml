@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  mongo-people:
+    image: "bitnami/mongodb:latest"
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_ROOT_USER: admin
+      MONGODB_ROOT_PASSWORD: password
+      MONGODB_REPLICA_SET_KEY: password2
+
+
+  mongo-classes:
+    image: "bitnami/mongodb:latest"
+    ports:
+      - "27018:27017"
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_ROOT_USER: admin
+      MONGODB_ROOT_PASSWORD: password
+      MONGODB_REPLICA_SET_KEY: password2
+
+  mongo-payments:
+    image: "bitnami/mongodb:latest"
+    ports:
+      - "27019:27017"
+    environment:
+      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_ROOT_USER: admin
+      MONGODB_ROOT_PASSWORD: password
+      MONGODB_REPLICA_SET_KEY: password2
