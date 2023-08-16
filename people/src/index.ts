@@ -1,13 +1,11 @@
-import "dotenv/config";
-import RedisServer, { MESSAGES_TO_LISTEN } from "./interfaces/redis";
+import Server from "./server";
 
-const redis = new RedisServer();
-redis.registerNewMessage(MESSAGES_TO_LISTEN.CREATE_PERSON, async () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log("Async code executed");
-      resolve(null);
-    }, 2000);
-  });
-});
-console.log("Server has started..");
+const app = new Server(5000);
+app.listen();
+
+// const person = {
+//   name: "John",
+//   age: 30,
+// };
+
+// Publisher.publish(AVAILABLE_CHANNELS.PERSON_CREATED, JSON.stringify(person));
