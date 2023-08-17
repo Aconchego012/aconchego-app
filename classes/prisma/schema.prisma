@@ -1,0 +1,55 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("CLASSES_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum AttendanceStatus {
+    PRESENT
+    ABSENT
+}
+
+model Student {
+    id         String       @id @map("_id") @db.ObjectId
+    Attendance Attendance[]
+    Feedback   Feedback[]
+    Class      Class[]
+}
+
+model Teacher {
+    id         String  @id @map("_id") @db.ObjectId
+    Class      Class[]
+    externalId String  @unique
+}
+
+model Attendance {
+    id        String           @id @default(auto()) @map("_id") @db.ObjectId
+    Student   Student          @relation(fields: [studentId], references: [id])
+    studentId String           @db.ObjectId
+    Class     Class            @relation(fields: [classId], references: [id])
+    classId   String           @db.ObjectId
+    date      DateTime
+    status    AttendanceStatus
+}
+
+model Feedback {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    User      Student  @relation(fields: [studentId], references: [id])
+    studentId String   @db.ObjectId
+    date      DateTime
+    feedback  String
+}
+
+model Class {
+    id          String       @id @default(auto()) @map("_id") @db.ObjectId
+    name        String
+    description String
+    Teacher     Teacher      @relation(fields: [teacherId], references: [id])
+    teacherId   String       @db.ObjectId
+    Student     Student?     @relation(fields: [studentId], references: [id])
+    studentId   String?      @db.ObjectId
+    Attendance  Attendance[]
+}

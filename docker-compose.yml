@@ -15,27 +15,38 @@ services:
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_ROOT_USER: admin
       MONGODB_ROOT_PASSWORD: password
-      MONGODB_REPLICA_SET_KEY: password2
-
-
+      MONGODB_REPLICA_SET_KEY: replicasetkey1
+    volumes:
+      - mongo-people:/bitnami/mongodb
+        
   mongo-classes:
     image: "bitnami/mongodb:latest"
     ports:
       - "27018:27017"
     environment:
-      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_ADVERTISED_HOSTNAME: localhost     
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_ROOT_USER: admin
       MONGODB_ROOT_PASSWORD: password
-      MONGODB_REPLICA_SET_KEY: password2
-
+      MONGODB_REPLICA_SET_KEY: replicasetkey2
+    volumes: 
+      - mongo-classes:/bitnami/mongodb
+   
   mongo-payments:
     image: "bitnami/mongodb:latest"
     ports:
       - "27019:27017"
     environment:
-      MONGODB_ADVERTISED_HOSTNAME: localhost
+      MONGODB_ADVERTISED_HOSTNAME: localhost   
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_ROOT_USER: admin
       MONGODB_ROOT_PASSWORD: password
-      MONGODB_REPLICA_SET_KEY: password2
+      MONGODB_REPLICA_SET_KEY: replicasetkey3
+    volumes:
+      - mongo-payments:/bitnami/mongodb
+
+volumes: 
+  mongo-people:
+  mongo-classes:
+  mongo-payments:
+

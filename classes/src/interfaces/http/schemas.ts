@@ -22,26 +22,3 @@ export const createPersonSchema: Schema = {
     notEmpty: true,
   },
 };
-
-export const updatePersonSchema: Schema = {
-  name: {
-    notEmpty: false,
-    isString: true,
-  },
-  email: {
-    notEmpty: false,
-    isEmail: true,
-  },
-  phone: {
-    isString: true,
-    notEmpty: false,
-  },
-  birthday: {
-    isString: true,
-    notEmpty: false,
-  },
-  cpf: {
-    isString: true,
-    notEmpty: false,
-  },
-};

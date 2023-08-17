@@ -1,9 +1,10 @@
 import "dotenv/config";
 import express, { Application } from "express";
 import cors from "cors";
+import router from "./interfaces/http/routes/attendance.route";
 import bodyParser from "body-parser";
-import httpProxy from "express-http-proxy";
-import { SERVICES } from "./consts/services";
+import Listener from "./interfaces/message/listener";
+import { createUser } from "./usecases/user.usecase";
 
 class Server {
   public app: Application;
@@ -14,7 +15,8 @@ class Server {
     this.port = port;
 
     this.middlewares();
-    this.setupProxy();
+    this.routes();
+    this.setupSubscribers();
   }
 
   private middlewares() {
@@ -26,9 +28,13 @@ class Server {
     this.app.use(bodyParser.json());
   }
 
-  private setupProxy() {
-    const peopleServiceProxy = httpProxy(SERVICES.PEOPLE_SERVICE);
-    this.app.use("/api/people", peopleServiceProxy);
+  private setupSubscribers() {
+    Listener.connect();
+    Listener.subscribe("TEST", createUser);
+  }
+
+  private routes() {
+    this.app.use(router);
   }
 
   public listen() {
