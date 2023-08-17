@@ -6,7 +6,7 @@ import { createPersonUseCase } from "../../usecases/person.usecase";
 const router = Router();
 
 router.post(
-  "/person",
+  "/",
   checkSchema(createPersonSchema),
   async (req: Request, res: Response) => {
     const result = validationResult(req);
@@ -26,7 +26,7 @@ router.post(
   }
 );
 
-router.get("/person", async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   res.json({ message: "Hello World" });
 });
 

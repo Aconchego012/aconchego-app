@@ -1,8 +1,9 @@
 import "dotenv/config";
 import express, { Application } from "express";
 import cors from "cors";
-import router from "./interfaces/http/router";
 import bodyParser from "body-parser";
+import httpProxy from "express-http-proxy";
+import { SERVICES } from "./services";
 
 class Server {
   public app: Application;
@@ -13,7 +14,7 @@ class Server {
     this.port = port;
 
     this.middlewares();
-    this.routes();
+    this.setupProxy();
   }
 
   private middlewares() {
@@ -25,8 +26,9 @@ class Server {
     this.app.use(bodyParser.json());
   }
 
-  private routes() {
-    this.app.use(router);
+  private setupProxy() {
+    const peopleServiceProxy = httpProxy(SERVICES.PEOPLE_SERVICE);
+    this.app.use("/api/people", peopleServiceProxy);
   }
 
   public listen() {
