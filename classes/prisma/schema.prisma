@@ -12,6 +12,12 @@ enum AttendanceStatus {
     ABSENT
 }
 
+enum FeebackStatus {
+    PENDING
+    APPROVED
+    REJECTED
+}
+
 model Student {
     id         String       @id @map("_id") @db.ObjectId
     Attendance Attendance[]
@@ -20,9 +26,9 @@ model Student {
 }
 
 model Teacher {
-    id         String  @id @map("_id") @db.ObjectId
-    Class      Class[]
-    externalId String  @unique
+    id       String     @id @map("_id") @db.ObjectId
+    Class    Class[]
+    Feedback Feedback[]
 }
 
 model Attendance {
@@ -31,16 +37,28 @@ model Attendance {
     studentId String           @db.ObjectId
     Class     Class            @relation(fields: [classId], references: [id])
     classId   String           @db.ObjectId
-    date      DateTime
+    date      DateTime         @unique
     status    AttendanceStatus
 }
 
+model FeedbackParameter {
+    id         String    @id @default(auto()) @map("_id") @db.ObjectId
+    name       String
+    value      String
+    Feedback   Feedback? @relation(fields: [feedbackId], references: [id])
+    feedbackId String?   @db.ObjectId
+}
+
 model Feedback {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    User      Student  @relation(fields: [studentId], references: [id])
-    studentId String   @db.ObjectId
-    date      DateTime
-    feedback  String
+    id         String              @id @default(auto()) @map("_id") @db.ObjectId
+    Student    Student             @relation(fields: [studentId], references: [id])
+    studentId  String              @db.ObjectId
+    date       DateTime
+    feedback   String
+    Teacher    Teacher             @relation(fields: [teacherId], references: [id])
+    teacherId  String              @db.ObjectId
+    status     String
+    parameters FeedbackParameter[]
 }
 
 model Class {

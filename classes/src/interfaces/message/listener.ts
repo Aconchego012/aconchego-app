@@ -11,7 +11,7 @@ class Listener {
 
   public static async connect() {
     await this.client.connect();
-    console.log("Connected to Redis");
+    console.log("Listening to incoming messages...");
   }
 
   public static async subscribe(

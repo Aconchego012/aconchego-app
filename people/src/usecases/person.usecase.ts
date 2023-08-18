@@ -7,19 +7,20 @@ interface PersonDTO {
   phone: string;
   birthday: string;
   cpf: string;
+  role: "ADMIN" | "TEACHER" | "STUDENT";
 }
 
-export function createPersonUseCase(person: PersonDTO) {
+export async function createPersonUseCase(person: PersonDTO) {
   const prisma = new PrismaClient();
 
   try {
-    const createdPerson = prisma.person.create({
+    const createdPerson = await prisma.person.create({
       data: person,
     });
 
     Publisher.publish(
       AVAILABLE_CHANNELS.PERSON_CREATED,
-      JSON.stringify(person)
+      JSON.stringify(createdPerson)
     );
 
     return createdPerson;

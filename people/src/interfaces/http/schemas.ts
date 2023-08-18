@@ -21,6 +21,10 @@ export const createPersonSchema: Schema = {
     isString: true,
     notEmpty: true,
   },
+  role: {
+    isString: true,
+    notEmpty: true,
+  },
 };
 
 export const updatePersonSchema: Schema = {
@@ -43,5 +47,9 @@ export const updatePersonSchema: Schema = {
   cpf: {
     isString: true,
     notEmpty: false,
+  },
+  role: {
+    isString: true,
+    notEmpty: true,
   },
 };

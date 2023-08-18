@@ -1,23 +1,21 @@
 import { Router, Request, Response } from "express";
-import { checkSchema, validationResult } from "express-validator";
-import { createPersonSchema } from "../schemas";
+import { registerAttendanceUsecase } from "../../../usecases/class.usecase";
 
 const router = Router();
 
-router.put(
-  "/",
-  checkSchema(createPersonSchema, ["body"]),
-  async (req: Request, res: Response) => {
-    const result = validationResult(req);
-    if (!result.isEmpty()) {
-      return res.status(400).send({
-        errors: result.array().map((error: any) => ({
-          field: error.path,
-          message: error.msg,
-        })),
-      });
-    }
-  }
-);
+router.post("/:id/attendance", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { studentId } = req.query;
+  const { date, status } = req.body;
+
+  const attendance = await registerAttendanceUsecase({
+    classId: id,
+    studentId: String(studentId),
+    date,
+    status,
+  });
+
+  return res.status(201).json(attendance);
+});
 
 export default router;

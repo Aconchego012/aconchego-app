@@ -5,11 +5,19 @@ export async function createUser(message: string) {
 
   const user: any = JSON.parse(message);
 
-  await prisma.student.create({
-    data: {
-      id: user.id,
-    },
-  });
+  if (user.role === "STUDENT") {
+    await prisma.student.create({
+      data: {
+        id: user.id,
+      },
+    });
+  } else if (user.role === "TEACHER") {
+    await prisma.teacher.create({
+      data: {
+        id: user.id,
+      },
+    });
+  }
 
   console.log("User created!");
 }

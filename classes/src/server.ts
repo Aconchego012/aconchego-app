@@ -30,7 +30,7 @@ class Server {
 
   private setupSubscribers() {
     Listener.connect();
-    Listener.subscribe("TEST", createUser);
+    Listener.subscribe("PERSON_CREATED", createUser);
   }
 
   private routes() {
